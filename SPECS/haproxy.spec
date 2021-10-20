@@ -239,6 +239,9 @@ fi
 %endif
 
 %changelog
+* Sat Oct 20 2021 Valentin Khmyrov <val.khmyrov@gmail.com>
+- Add dataplaneapi
+
 * Sat May 30 2021 David Bezemer <info@davidbezemer.nl>
 - Add support for HAProxy 2.4.x
 
