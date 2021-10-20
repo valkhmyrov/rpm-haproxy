@@ -1,6 +1,7 @@
 HOME=$(shell pwd)
 MAINVERSION=2.4
 LUA_VERSION=5.4.3
+DATAPLANEAPI_VERSION=2.3.7
 USE_LUA?=0
 NO_SUDO?=0
 USE_PROMETHEUS?=0
@@ -22,12 +23,15 @@ endif
 
 clean:
 	rm -f ./SOURCES/haproxy-${VERSION}.tar.gz
+	rm -f ./SOURCES/dataplaneapi_${DATAPLANEAPI_VERSION}_Linux_x86_64.tar.gz
+	rm -rf ./SOURCES/build
 	rm -rf ./rpmbuild
 	mkdir -p ./rpmbuild/SPECS/ ./rpmbuild/SOURCES/ ./rpmbuild/RPMS/ ./rpmbuild/SRPMS/
 	rm -rf ./lua-${LUA_VERSION}*
 
 download-upstream:
 	curl -o  ./SOURCES/haproxy-${VERSION}.tar.gz http://www.haproxy.org/download/${MAINVERSION}/src/haproxy-${VERSION}.tar.gz
+	curl -L -o ./SOURCES/dataplaneapi_${DATAPLANEAPI_VERSION}_Linux_x86_64.tar.gz https://github.com/haproxytech/dataplaneapi/releases/download/v${DATAPLANEAPI_VERSION}/dataplaneapi_${DATAPLANEAPI_VERSION}_Linux_x86_64.tar.gz
 
 build_lua:
 	sudo yum install -y readline-devel
@@ -67,4 +71,5 @@ build: $(build_stages)
 	--define "_rpmdir %{_topdir}/RPMS" \
 	--define "_srcrpmdir %{_topdir}/SRPMS" \
 	--define "_use_lua ${USE_LUA}" \
-	--define "_use_prometheus ${USE_PROMETHEUS}"
+	--define "_use_prometheus ${USE_PROMETHEUS}" \
+	--define "dataplaneapi_version ${DATAPLANEAPI_VERSION}"

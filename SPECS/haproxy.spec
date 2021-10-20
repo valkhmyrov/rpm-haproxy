@@ -1,6 +1,7 @@
 %define haproxy_user    haproxy
 %define haproxy_group   %{haproxy_user}
 %define haproxy_home    %{_localstatedir}/lib/haproxy
+%define _build_id_links none
 
 %if 0%{?rhel} > 6 && 0%{!?amzn2}
     %define dist %{expand:%%(/usr/lib/rpm/redhat/dist.sh --dist)}
@@ -29,6 +30,8 @@ Source2: %{name}.service
 Source3: %{name}.logrotate
 Source4: %{name}.syslog%{?dist}
 Source5: halog.1
+Source6: https://github.com/haproxytech/dataplaneapi/releases/download/v%{dataplaneapi_version}/dataplaneapi_%{dataplaneapi_version}_Linux_x86_64.tar.gz
+Source7: dataplaneapi.hcl
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 BuildRequires: pcre-devel
@@ -72,6 +75,7 @@ risking the system's stability.
 
 %prep
 %setup -q
+%setup -b 6
 
 # We don't want any perl dependecies in this RPM:
 %define __perl_requires /bin/true
@@ -141,11 +145,13 @@ USE_PROMETHEUS="USE_PROMEX=1"
 %{__install} -c -m 644 doc/%{name}.1 %{buildroot}%{_mandir}/man1/
 %{__install} -c -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/rsyslog.d/49-%{name}.conf
 %{__install} -c -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+%{__install} -c -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/%{name}/dataplaneapi.hcl
 
 %{__install} -p -m 0755 ./admin/halog/halog %{buildroot}%{_bindir}/halog
 %{__install} -p -m 0755 ./admin/iprange/iprange %{buildroot}%{_bindir}/iprange
 %{__install} -p -m 0755 ./admin/iprange/ip6range %{buildroot}%{_bindir}/ip6range
 %{__install} -p -D -m 0644 %{SOURCE5} %{buildroot}%{_mandir}/man1/halog.1
+%{__install} -p -m 0755 ../build/dataplaneapi %{buildroot}%{_sbindir}/dataplaneapi
 
 %if 0%{?el6} || 0%{?amzn1}
 %{__install} -d %{buildroot}%{_sysconfdir}/rc.d/init.d
@@ -214,7 +220,9 @@ fi
 %dir %{_sysconfdir}/%{name}
 %{_sysconfdir}/%{name}/errors
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/%{name}/%{name}.cfg
+%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/%{name}/dataplaneapi.hcl
 %attr(0755,root,root) %{_sbindir}/%{name}
+%attr(0755,root,root) %{_sbindir}/dataplaneapi
 %dir %{_localstatedir}/log/%{name}
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/rsyslog.d/49-%{name}.conf
