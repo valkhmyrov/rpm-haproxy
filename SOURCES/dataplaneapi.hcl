@@ -12,7 +12,7 @@ dataplaneapi {
 
   user "admin" {
     insecure = true
-    password = "adminpwd"
+    password = "change_me"
   }
 
   transaction {
