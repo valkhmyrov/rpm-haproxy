@@ -217,15 +217,15 @@ fi
     %license LICENSE
 %endif
 %doc %{_mandir}/man1/*
-%dir %{_sysconfdir}/%{name}
+%dir %attr(-, haproxy, haproxy) %{_sysconfdir}/%{name}
 %{_sysconfdir}/%{name}/errors
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/%{name}/%{name}.cfg
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/%{name}/dataplaneapi.hcl
+%attr(0644,haproxy,haproxy) %config(noreplace) %{_sysconfdir}/%{name}/%{name}.cfg
+%attr(0644,haproxy,haproxy) %config(noreplace) %{_sysconfdir}/%{name}/dataplaneapi.hcl
 %attr(0755,root,root) %{_sbindir}/%{name}
 %attr(0755,root,root) %{_sbindir}/dataplaneapi
 %dir %{_localstatedir}/log/%{name}
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/rsyslog.d/49-%{name}.conf
+%attr(0644,haproxy,haproxy) %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%attr(0644,haproxy,haproxy) %config(noreplace) %{_sysconfdir}/rsyslog.d/49-%{name}.conf
 %{_bindir}/halog
 %{_bindir}/iprange
 %{_bindir}/ip6range
@@ -239,6 +239,10 @@ fi
 %endif
 
 %changelog
+* Sat Oct 20 2021 Valentin Khmyrov <val.khmyrov@gmail.com>
+- Update to: haproxy 2.6.5, dataplaneapi 2.6.0, lua 5.4.4
+- Change permission to config files
+
 * Sat Oct 20 2021 Valentin Khmyrov <val.khmyrov@gmail.com>
 - Add dataplaneapi
 
