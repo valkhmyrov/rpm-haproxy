@@ -218,7 +218,7 @@ fi
 %endif
 %doc %{_mandir}/man1/*
 %dir %attr(-, haproxy, haproxy) %{_sysconfdir}/%{name}
-%{_sysconfdir}/%{name}/errors
+%attr(-, haproxy, haproxy) %{_sysconfdir}/%{name}/errors
 %attr(0644,haproxy,haproxy) %config(noreplace) %{_sysconfdir}/%{name}/%{name}.cfg
 %attr(0644,haproxy,haproxy) %config(noreplace) %{_sysconfdir}/%{name}/dataplaneapi.hcl
 %attr(0755,root,root) %{_sbindir}/%{name}
