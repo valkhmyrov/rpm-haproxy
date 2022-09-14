@@ -1,13 +1,11 @@
 config_version = 2
 
-name = "legal_titmouse"
+name = "famous_condor"
 
 mode = "single"
 
-status = ""
-
 dataplaneapi {
-  host = "0.0.0.0"
+  host = "127.0.0.1"
   port = 5555
 
   user "admin" {
@@ -19,10 +17,7 @@ dataplaneapi {
     transaction_dir = "/tmp/haproxy"
   }
 
-  advertised {
-    api_address = ""
-    api_port    = 0
-  }
+  advertised {}
 }
 
 haproxy {
@@ -35,3 +30,24 @@ haproxy {
     restart_cmd  = "/usr/bin/systemctl restart haproxy"
   }
 }
+
+log_targets = [
+  {
+    log_to           = "stdout"
+    log_file         = ""
+    log_level        = "info"
+    log_format       = "json"
+    ACLFormat        = ""
+    syslog_address   = ""
+    syslog_protocol  = ""
+    syslog_tag       = ""
+    syslog_level     = ""
+    syslog_facillity = ""
+    SyslogMsgID      = ""
+
+    log_types = [
+      "access",
+      "app",
+    ]
+  }
+]

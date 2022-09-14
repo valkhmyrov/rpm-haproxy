@@ -224,7 +224,7 @@ fi
 %attr(0755,root,root) %{_sbindir}/%{name}
 %attr(0755,root,root) %{_sbindir}/dataplaneapi
 %dir %{_localstatedir}/log/%{name}
-%attr(0644,haproxy,haproxy) %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %attr(0644,haproxy,haproxy) %config(noreplace) %{_sysconfdir}/rsyslog.d/49-%{name}.conf
 %{_bindir}/halog
 %{_bindir}/iprange
