@@ -26,8 +26,8 @@ haproxy {
 
   reload {
     reload_delay = 5
-    reload_cmd   = "/usr/bin/systemctl reload haproxy"
-    restart_cmd  = "/usr/bin/systemctl restart haproxy"
+    reload_cmd   = "sudo /usr/bin/systemctl reload haproxy"
+    restart_cmd  = "sudo /usr/bin/systemctl restart haproxy"
   }
 }
 
